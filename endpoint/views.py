@@ -12,7 +12,7 @@ from .serializers import (
 
 
 # ============================================================
-# DRIVER INFO
+# DRIVER INFORMATION
 # ============================================================
 
 class DriverInfoView(generics.ListCreateAPIView):
