@@ -71,6 +71,9 @@ class DriverSafetyScanListCreateView(
             print("========================================")
             print("SAFETY SCAN SAVED")
             print("ID:", scan.id)
+            print("TRUCK ID:", scan.truck_id)
+            print("RISK LEVEL:", scan.risk_level)
+            print("RISK SCORE:", scan.overall_risk_score)
             print("========================================")
 
             return Response(

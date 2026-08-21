@@ -66,6 +66,18 @@ class DriverInfoModel(models.Model):
 
 class DriverSafetyScan(models.Model):
 
+    # ========================================================
+    # TRUCK
+    # ========================================================
+
+    truck_id = models.CharField(
+        max_length=20,
+    )
+
+    # ========================================================
+    # SAFETY ANALYSIS
+    # ========================================================
+
     status = models.CharField(
         max_length=50,
         default="success",
@@ -162,6 +174,7 @@ class DriverSafetyScan(models.Model):
     def __str__(self):
         return (
             f"Scan {self.id} - "
+            f"Truck: {self.truck_id} - "
             f"Risk: {self.risk_level} "
             f"({self.overall_risk_score})"
         )

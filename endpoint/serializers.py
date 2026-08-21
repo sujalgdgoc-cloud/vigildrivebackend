@@ -108,6 +108,9 @@ class DriverSafetyScanSerializer(
         fields = [
             "id",
 
+            # TRUCK
+            "truck_id",
+
             "status",
             "total_frames_processed",
             "overall_risk_score",
@@ -145,6 +148,10 @@ class DriverSafetyScanSerializer(
             "id",
         ]
 
+    # ========================================================
+    # ENVIRONMENT WARNING
+    # ========================================================
+
     def validate_environment_warning(self, value):
 
         if value is None:
@@ -157,10 +164,14 @@ class DriverSafetyScanSerializer(
 
         return value
 
+    # ========================================================
+    # VALIDATE / FLATTEN MOTION DATA
+    # ========================================================
+
     def validate(self, attrs):
 
         # ----------------------------------------------------
-        # Safe defaults for FastAPI null values
+        # SAFE DEFAULTS FOR FASTAPI NULL VALUES
         # ----------------------------------------------------
 
         attrs["status"] = (
@@ -204,12 +215,8 @@ class DriverSafetyScanSerializer(
             or 0
         )
 
-        attrs["scan_timestamp"] = (
-            attrs.get("scan_timestamp")
-        )
-
         # ----------------------------------------------------
-        # Motion analysis
+        # MOTION ANALYSIS
         # ----------------------------------------------------
 
         motion = attrs.get(
@@ -229,6 +236,7 @@ class DriverSafetyScanSerializer(
                 "sudden_braking_events",
                 0,
             )
+            or 0
         )
 
         attrs["swerving_detected"] = (
@@ -243,6 +251,7 @@ class DriverSafetyScanSerializer(
                 "swerving_events",
                 0,
             )
+            or 0
         )
 
         attrs["accelerometer_samples"] = (
@@ -250,6 +259,7 @@ class DriverSafetyScanSerializer(
                 "accelerometer_samples",
                 0,
             )
+            or 0
         )
 
         attrs["gyroscope_samples"] = (
@@ -257,6 +267,7 @@ class DriverSafetyScanSerializer(
                 "gyroscope_samples",
                 0,
             )
+            or 0
         )
 
         attrs["max_acceleration_magnitude"] = (
@@ -264,6 +275,7 @@ class DriverSafetyScanSerializer(
                 "max_acceleration_magnitude",
                 0.0,
             )
+            or 0.0
         )
 
         attrs["average_acceleration_magnitude"] = (
@@ -271,6 +283,7 @@ class DriverSafetyScanSerializer(
                 "average_acceleration_magnitude",
                 0.0,
             )
+            or 0.0
         )
 
         attrs["max_gyroscope_magnitude"] = (
@@ -278,6 +291,7 @@ class DriverSafetyScanSerializer(
                 "max_gyroscope_magnitude",
                 0.0,
             )
+            or 0.0
         )
 
         attrs["accelerometer_data"] = (
@@ -285,6 +299,7 @@ class DriverSafetyScanSerializer(
                 "accelerometer_data",
                 [],
             )
+            or []
         )
 
         attrs["gyroscope_data"] = (
@@ -292,10 +307,12 @@ class DriverSafetyScanSerializer(
                 "gyroscope_data",
                 [],
             )
+            or []
         )
 
-        # Remove nested object because the model
-        # does not have a motion_analysis column.
+        # ----------------------------------------------------
+        # REMOVE NESTED MOTION OBJECT
+        # ----------------------------------------------------
 
         attrs.pop(
             "motion_analysis",
@@ -303,6 +320,10 @@ class DriverSafetyScanSerializer(
         )
 
         return attrs
+
+    # ========================================================
+    # CREATE
+    # ========================================================
 
     def create(self, validated_data):
 
