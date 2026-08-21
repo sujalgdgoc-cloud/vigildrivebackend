@@ -23,6 +23,12 @@ class DriverInfoView(generics.ListCreateAPIView):
 
     serializer_class = DriverInfoSerializers
 
+class DriverInfoDetailView(generics.RetrieveUpdateDestroyAPIView):
+    
+    queryset = DriverInfoModel.objects.all()
+    
+    serializer_class = DriverInfoSerializers
+
 
 # ============================================================
 # DRIVER SAFETY SCANS
