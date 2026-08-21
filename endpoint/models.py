@@ -171,6 +171,11 @@ class DriverSafetyScan(models.Model):
         blank=True,
     )
 
+    class Meta:
+        verbose_name = "Safety Scan"
+        verbose_name_plural = "Safety Scans"
+        ordering = ["-scan_timestamp"]
+
     def __str__(self):
         return (
             f"Scan {self.id} - "
